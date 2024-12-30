@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# Function to configure the terminal
+setup_terminal() {
+    stty -echo -icanon time 0 min 0  # Disable line buffering and echo
+    tput civis  # Hide the cursor
+}
+
+# Function to restore the terminal
+restore_terminal() {
+    stty sane  # Restore default terminal settings
+    tput cnorm  # Show the cursor
+    clear       # Clear the screen
+}
+
+# Trap exit signals to ensure cleanup
+trap restore_terminal EXIT
+
+# Set up the terminal
+setup_terminal
+
+# Test the setup by detecting keypresses
+echo "Press any key to test real-time input. Press 'q' to quit."
+while true; do
+    read -rsn1 key  # Read a single keypress
+    [[ $key == "q" ]] && break  # Exit if 'q' is pressed
+    echo "You pressed: $key"
+done

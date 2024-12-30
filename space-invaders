@@ -1,0 +1,52 @@
+# !/bin/bash
+
+# Terminal setup
+stty -echo -icanon time 0 min 0
+tput civis
+trap "stty sane; tput cnorm; clear" EXIT
+
+# Define the player spaceship using spaces and ⬜
+player_art=(
+    "     ⬜⬜⬜     "
+    "    ⬜⬜⬜⬜⬜    "
+    "  ⬜⬜⬜⬜⬜⬜⬜⬜⬜  "
+    " ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜ "
+    "             "
+    " ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜ "
+)
+
+# Define the enemy sprite using spaces and ⬜
+enemy_art=(
+    "             "
+    "   ⬜     ⬜   "
+    "    ⬜   ⬜    "
+    "   ⬜⬜⬜⬜⬜⬜⬜   "
+    "  ⬜⬜ ⬜⬜⬜ ⬜⬜  "
+    " ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜ "
+    " ⬜ ⬜⬜⬜⬜⬜⬜⬜ ⬜ "
+    " ⬜ ⬜     ⬜ ⬜ "
+    "    ⬜⬜ ⬜⬜    "
+    "             "
+)
+
+# Function to draw any character (player or enemy)
+draw_art() {
+    local start_row=$1
+    local start_col=$2
+    local row=0
+    local art=("$3")  # Takes the art array as an argument
+
+    for line in "${art[@]}"; do
+        tput cup $((start_row + row)) $start_col
+        echo "$line"
+        row=$((row + 1))
+    done
+}
+
+# Clear the screen and draw the player spaceship and the enemy sprite
+clear
+draw_art 5 10 player_art  # Draw player spaceship at position (5, 10)
+draw_art 1 30 enemy_art   # Draw enemy at position (1, 30)
+
+# Wait for a 
+read -n 1
